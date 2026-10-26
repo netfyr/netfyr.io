@@ -7,6 +7,7 @@
 }
 
 :root {
+  --text: #f7f2ea;
   color-scheme: dark;
   background: #211c19;
   color: #f7f2ea;
@@ -19,39 +20,76 @@
 }
 
 body {
+  margin: 0;
+}
+
+.landing {
   display: grid;
   min-height: 100vh;
   min-height: 100svh;
-  margin: 0;
   padding: 2rem;
   place-items: center;
 }
 
-main {
+.landing main {
   width: 100%;
   max-width: 40rem;
   text-align: center;
 }
 
-h1 {
-  margin: 0;
+.landing h1 {
+  width: min(100%, 22rem);
+  margin: 0 auto;
 }
 
-h1 img {
+.landing h1 img,
+.landing h1 .flame-svg {
   display: block;
-  width: min(100%, 22rem);
+  width: 100%;
   height: auto;
   margin-inline: auto;
 }
 
-p {
+.flame-svg {
+  fill: #ff7a1a;
+  stroke: none;
+  overflow: visible;
+}
+
+.flame-body {
+  transform-box: view-box;
+  transform-origin: 64px 115px;
+}
+
+.flame-motion-path {
+  display: none;
+}
+
+.flame-original {
+  opacity: 1;
+}
+
+.flame-blur {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.is-burning .flame-original {
+  opacity: 0;
+}
+
+.is-burning .flame-blur {
+  opacity: 1;
+}
+
+.landing p {
   margin: 2rem 0 1.5rem;
   font-size: clamp(1.125rem, 3vw, 1.5rem);
   line-height: 1.5;
   text-wrap: balance;
 }
 
-nav {
+.landing nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -59,13 +97,16 @@ nav {
 }
 
 a {
+  color: #ff7a1a;
+  line-height: 1.5;
+  text-underline-offset: 0.25em;
+}
+
+.landing a {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   padding: 0.5rem 0.25rem;
-  color: #ff7a1a;
-  line-height: 1.5;
-  text-underline-offset: 0.25em;
 }
 
 a:hover {
