@@ -5,6 +5,9 @@ Website code is licensed under the MIT License in LICENSE.
 The logo animation in public/brand/ is copied from netfyr/design.
 SVG.js and svg.filter.js use MIT licenses included in public/brand/vendor/.
 
+The theme control in public/ui/ is copied from netfyr/design's web library
+under the MIT License.
+
 The netfyr Sans font is licensed under the SIL Open Font License 1.1,
 included in public/assets/OFL.txt. It is copied unchanged from netfyr/design.
 

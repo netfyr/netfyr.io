@@ -7,12 +7,46 @@
 }
 
 :root {
-  --text: #f7f2ea;
-  color-scheme: dark;
-  background: #211c19;
-  color: #f7f2ea;
+  --background: #faf8f4;
+  --surface: #fffdf9;
+  --text: #211c19;
+  --muted: #716b62;
+  --line: #e3ded6;
+  --accent: #af4d10;
+  --soft: #eeebe5;
+  --ui-text: var(--text);
+  --ui-muted: var(--muted);
+  --ui-accent: var(--accent);
+  --ui-nav-hover: var(--soft);
+  color-scheme: light;
+  background: var(--background);
+  color: var(--text);
   font-family: "netfyr Sans", sans-serif;
   font-synthesis: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-ui-mode]) {
+    --background: #211c19;
+    --surface: #292420;
+    --text: #f7f2ea;
+    --muted: #b7aca0;
+    --line: #443b34;
+    --accent: #ff9b53;
+    --soft: #332c27;
+    color-scheme: dark;
+  }
+}
+
+:root[data-ui-mode="dark"] {
+  --background: #211c19;
+  --surface: #292420;
+  --text: #f7f2ea;
+  --muted: #b7aca0;
+  --line: #443b34;
+  --accent: #ff9b53;
+  --soft: #332c27;
+  color-scheme: dark;
 }
 
 * {
@@ -21,6 +55,16 @@
 
 body {
   margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.landing > .ui-theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .landing {
@@ -97,7 +141,7 @@ body {
 }
 
 a {
-  color: #ff7a1a;
+  color: var(--accent);
   line-height: 1.5;
   text-underline-offset: 0.25em;
 }
@@ -110,11 +154,17 @@ a {
 }
 
 a:hover {
-  color: #f7f2ea;
+  color: var(--text);
 }
 
 a:focus-visible {
-  outline: 2px solid #ff7a1a;
+  outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 2px;
+}
+
+@media print {
+  html[data-ui-theme] .ui-theme-toggle {
+    display: none;
+  }
 }
