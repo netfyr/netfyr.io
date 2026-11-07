@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" data-ui-theme prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A contributor's guide to netfyr: specifications, implementation, testing, review, development tools, and infrastructure.">
+    <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#211c19" media="(prefers-color-scheme: dark)">
+    <script>
+      try {
+        const mode = localStorage.getItem('netfyr-theme');
+        if (mode === 'light' || mode === 'dark') {
+          document.documentElement.dataset.uiMode = mode;
+          document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+            meta.content = mode === 'dark' ? '#211c19' : '#faf8f4';
+          });
+        }
+      } catch {}
+    </script>
+    <title>Development lifecycle · netfyr</title>
+    <link rel="canonical" href="https://netfyr.io/development/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="netfyr">
+    <meta property="og:title" content="Development lifecycle · netfyr">
+    <meta property="og:description" content="A contributor's guide to netfyr: specifications, implementation, testing, review, development tools, and infrastructure.">
+    <meta property="og:url" content="https://netfyr.io/development/">
+    <meta property="og:image" content="https://netfyr.io/assets/social/wireless.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="A terminal-style wireless mast with orange signal strokes on a dark screen.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Development lifecycle · netfyr">
+    <meta name="twitter:description" content="A contributor's guide to netfyr: specifications, implementation, testing, review, development tools, and infrastructure.">
+    <meta name="twitter:image" content="https://netfyr.io/assets/social/wireless.jpg">
+    <meta name="twitter:image:alt" content="A terminal-style wireless mast with orange signal strokes on a dark screen.">
+    <link rel="icon" href="../assets/netfyr-mark-orange.svg" type="image/svg+xml">
+    <link rel="preload" href="../assets/netfyrsans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/netfyrsans-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../ui/theme.css">
+    <link rel="stylesheet" href="development.css">
+    <script type="module" src="../brand.js"></script>
+    <script type="module" src="../theme.js"></script>
+    <script src="development.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <div class="sidebar-backdrop" id="guide-backdrop" hidden></div>
+    <aside class="sidebar" id="guide-sidebar" aria-label="Development navigation">
+      <a class="brand" href="../" aria-label="netfyr home">
+        <svg class="flame-svg flame-lockup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 128" width="155" height="45" role="img" aria-label="netfyr">
+          <g class="flame-body"><path fill="#FF7A1A" transform="translate(0 -2)" d="M90 12a6 6 0 0 0-10.24264-4.24264L15.75736 71.75736A6 6 0 0 0 14 76a50 50 0 0 0 100 0V52a6 6 0 0 0-10.24264-4.24264L90 61.51472ZM78 26.48528V76a6 6 0 0 0 10.24264 4.24264L102 66.48528V76A38 38 0 0 1 26.07643 78.40885Z"/></g>
+          <path fill="var(--text)" transform="translate(140.010695 100.470588) scale(0.106951872 -0.106951872)" d="M56 0V338V520H166V504Q192 514 220 520Q241 524 266 526Q291 528 316 528Q342 528 368 525Q394 522 416 516Q438 510 461 500Q483 489 499 477Q516 464 531 446Q546 427 555 408Q564 390 569 367Q574 343 574 319V0H464V319Q464 336 462 347Q459 358 454 370Q449 381 444 388Q438 394 429 401Q419 408 409 413Q399 417 384 421Q369 425 353 427Q337 429 316 429Q294 429 277 428Q259 426 243 423Q228 420 218 417Q207 413 198 407Q189 401 185 397Q180 392 175 383Q170 374 168 364Q166 354 166 338V0ZM920 -8Q891 -8 862 -4Q833 0 809 8Q785 16 762 30Q738 44 721 61Q704 78 691 101Q677 124 669 148Q662 172 658 201Q654 229 654 260Q654 290 658 319Q661 347 669 371Q676 395 690 418Q703 441 719 458Q735 475 759 490Q782 504 807 512Q831 520 860 524Q889 528 919 528Q946 528 974 524Q1002 520 1025 513Q1048 505 1071 492Q1094 478 1111 461Q1127 445 1141 423Q1155 400 1164 376Q1171 353 1176 324Q1180 295 1180 265Q1180 251 1173 240Q1165 229 1153 222Q1140 215 1125 215H766Q769 194 775 175Q781 158 787 148Q793 137 803 127Q813 117 823 112Q832 106 847 101Q863 96 880 94Q897 91 920 91Q952 91 975 94Q997 97 1017 104Q1036 110 1049 118Q1061 126 1074 139L1156 73Q1137 54 1111 38Q1085 21 1056 11Q1028 2 993 -3Q958 -8 920 -8ZM768 307H1066Q1064 327 1058 344Q1053 362 1047 374Q1040 386 1030 397Q1020 408 1011 414Q1001 420 987 425Q971 431 956 434Q940 436 919 436Q895 436 878 434Q861 431 845 425Q830 419 821 413Q811 407 802 396Q792 384 786 372Q780 360 775 341Q770 325 768 307ZM1432 0Q1420 0 1407 1Q1393 2 1382 4Q1369 7 1355 13Q1340 19 1329 26Q1319 34 1309 48Q1299 61 1294 74Q1290 85 1288 101Q1285 116 1285 132V421H1229V520H1285V656H1395V520H1485V421H1395V132Q1395 121 1396 116Q1397 110 1398 106L1399 103H1400L1401 102L1406 101Q1415 99 1432 99H1481V0ZM1576 0V421H1525V520H1576V556Q1576 578 1579 598Q1582 618 1587 632Q1593 649 1605 665Q1616 681 1629 690Q1641 700 1659 707Q1677 713 1692 716Q1706 718 1723 719Q1739 720 1754 720H1781V621H1754Q1741 621 1731 621Q1721 620 1713 619Q1705 617 1704 617Q1702 616 1699 614Q1695 611 1695 610Q1694 609 1692 602Q1689 594 1688 584Q1686 573 1686 556V520H1763V421H1686V0ZM1812 -220V-130H1867Q1884 -130 1895 -129Q1905 -128 1911 -125Q1917 -123 1921 -117Q1924 -111 1928 -101Q1931 -92 1937 -78L2000 72L1809 520H1922L2056 205L2188 520H2301L2041 -100Q2026 -134 2003 -161Q1979 -188 1946 -204Q1912 -220 1867 -220ZM2373 0V520H2483V424Q2492 464 2507 487Q2522 509 2544 519Q2565 528 2594 528Q2613 528 2630 525Q2647 522 2665 516V415Q2634 429 2597 429Q2574 429 2554 423Q2533 417 2517 405Q2501 393 2492 374Q2483 355 2483 329V0Z"/>
+        </svg>
+        <span class="brand-subtitle">development</span>
+      </a>
+      <button class="icon-button mobile-close" id="guide-close-menu" type="button" aria-label="Close navigation" hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      <nav class="section-navigation" aria-label="Guide sections">
+        <p class="nav-label">Contributing</p>
+        <a class="nav-link" href="#start" aria-current="location"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span>Start here</span></a>
+        <a class="nav-link" href="#lifecycle"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13m-4-4 4 4-4 4M20 16H7m4-4-4 4 4 4"/></svg><span>Lifecycle</span></a>
+        <a class="nav-link" href="#automation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v12H9l-4 4ZM8 8h8M8 12h5"/></svg><span>Agents &amp; automation</span></a>
+        <a class="nav-link" href="#working-on-code"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></svg><span>Working on code</span></a>
+        <a class="nav-link" href="#testing"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>Testing &amp; evidence</span></a>
+        <a class="nav-link" href="#submitting"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg><span>Submitting changes</span></a>
+        <hr class="nav-divider">
+        <p class="nav-label">Project</p>
+        <a class="nav-link" href="#tools"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 5 5-5 5m9 0h7"/></svg><span>Tools &amp; infrastructure</span></a>
+        <a class="nav-link" href="#documentation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5ZM14 3v5h5M8 12h8M8 16h8"/></svg><span>Documentation</span></a>
+        <a class="nav-link" href="#maintaining"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg><span>Maintaining this guide</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="nav-label">Resources</p>
+        <nav aria-label="Project links">
+          <a href="https://docs.netfyr.io/">Documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          <a href="https://specs.netfyr.io/?ns=netfyr%2Fspecs">Specifications <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          <a href="https://github.com/netfyr/netfyr">GitHub <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+        </nav>
+      </div>
+    </aside>
+    <div class="workspace" id="guide-workspace">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="guide-open-menu" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="guide-sidebar" hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../">netfyr</a><span aria-hidden="true">/</span><span>Development</span><span aria-hidden="true">/</span><strong id="guide-current-section">Start here</strong></nav>
+        <button class="ui-theme-toggle" type="button" data-ui-theme-toggle aria-label="Switch theme" hidden>
+          <svg data-ui-theme-icon="light" viewBox="0 0 24 24" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+          <svg data-ui-theme-icon="dark" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M20 14a8.5 8.5 0 0 1-10-10A8.5 8.5 0 1 0 20 14Z"/></svg>
+        </button>
+      </header>
+      <main class="page-layout" id="content" tabindex="-1">
+      <header class="article-header">
+        <h1>Development lifecycle</h1>
+        <p class="page-meta">Last reviewed <time datetime="2026-10-23">23 October 2026</time> · <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">Edit this page</a></p>
+      </header>
+      <div class="article-body">
+        <section aria-labelledby="start">
+          <h2 id="start">Start here</h2>
+          <p>A spec defines the behavior to build and the checks it must pass. Link code, tests, review, and documentation to the applicable spec.</p>
+          <ol>
+            <li>Read the <a href="https://github.com/netfyr/specs/blob/main/netfyr-philosophy.md">project philosophy</a> and the target repository's contribution guide. For core, start with <a href="https://github.com/netfyr/netfyr/blob/main/CONTRIBUTING.md">Contributing to netfyr</a>.</li>
+            <li>Find a task on the <a href="https://specs.netfyr.io/?ns=netfyr%2Fspecs">spec board</a> or <a href="https://specs.netfyr.io/roadmap?ns=netfyr%2Fspecs">planning page</a>. Check its dependencies and implementation assignment, and coordinate with its owner before starting.</li>
+            <li>Read the applicable merged spec in <a href="https://github.com/netfyr/specs">netfyr/specs</a>. If the behavior is unclear or a prerequisite is missing, raise that in the spec discussion.</li>
+          </ol>
+          <p>Contributions also include reproducing bugs, reviewing specs, improving examples, and correcting documentation. Use the relevant repository's issue or pull request discussion to explain the problem and agree the scope.</p>
+          <aside class="note" aria-label="Which requirements to use">
+            <p>The merged spec is the implementation acceptance baseline. A live board note can contain a newer revision still under review. Follow revision and replacement links before relying on an older requirement.</p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="lifecycle">
+          <h2 id="lifecycle">Development lifecycle</h2>
+          <figure class="lifecycle-diagram">
+            <figcaption id="lifecycle-diagram-caption">Feature lifecycle</figcaption>
+            <ol class="lifecycle-flow" aria-labelledby="lifecycle-diagram-caption" role="list">
+              <li><span class="flow-number" aria-hidden="true">1</span><a href="#propose-behavior">Draft spec</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">2</span><a href="#review-spec">Review and approve</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">3</span><a href="#merge-spec">Bot publication</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">4</span><a href="#implement-verify">Implement and test</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">5</span><a href="#review-code">Review and merge code</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">6</span><a href="#close-loop">Implemented</a></li>
+            </ol>
+            <p class="flow-feedback"><span aria-hidden="true">↩</span> Requirements changed during implementation? <a href="#review-spec">Revise the spec and repeat review.</a></p>
+          </figure>
+          <ol class="stages">
+            <li>
+              <h3 id="propose-behavior">Propose the behavior</h3>
+              <p>Create a spec using the board's template. Describe the problem, scope, dependencies, acceptance scenarios, numbered requirements (<code>FR-nnn</code>), and measurable success criteria (<code>SC-nnn</code>). Top-level specs define principles inherited by feature specs.</p>
+            </li>
+            <li>
+              <h3 id="review-spec">Review and approve the spec</h3>
+              <p>Move the draft to ready for review. Discuss comments and accept or reject suggestions in the editor. Authorized approvers approve through the editor controls; the current roster and quorum live in <a href="https://github.com/netfyr/specs/blob/main/roles.yml">roles.yml</a>.</p>
+              <p id="merge-spec">Once approval and discussion checks pass, SpecDoc opens a publication PR in <a href="https://github.com/netfyr/specs">netfyr/specs</a>. Spec content is reviewed in SpecDoc; contributors do not edit the published files or repeat the review in GitHub.</p>
+              <p>Automatic merging by the publication bot is still pending. Approval alone does not publish the spec; use the merged Git revision as the implementation baseline.</p>
+              <p>Maintainers handle onboarding, access and repository or bot configuration through reviewed GitHub PRs. This includes <code>roles.yml</code> changes to reviewer eligibility, quorum or the feedback-bot selection.</p>
+            </li>
+            <li>
+              <h3 id="implement-verify">Implement and verify</h3>
+              <p>Work against the merged requirements and implemented dependencies. Keep each feature PR focused on one governing spec. Build in reviewable increments, map tests to acceptance scenarios, and report a missing dependency instead of silently taking over its implementation.</p>
+            </li>
+            <li>
+              <h3 id="review-code">Review and merge the code</h3>
+              <p>Submit the behavior change, test evidence, documentation, and known limitations together. Address review findings and rerun the affected checks. Preserve the spec references when merging so the resulting history records what shipped.</p>
+            </li>
+            <li>
+              <h3 id="close-loop">Record completion</h3>
+              <p>When the completing commit reaches a configured implementation repository's default branch, SpecDoc detects its <code>implements</code> reference and marks the feature implemented. Partial work does not claim completion. Top-level principles remain approved; they are not closed as implemented.</p>
+              <p>If implementation reveals a requirement that needs changing, revise the spec through review. Corrections retain its identity and path; a replacement spec records what it supersedes. Update affected user documentation.</p>
+            </li>
+          </ol>
+          <p>SpecDoc's <a href="https://specdoc.josie.cloud/spec-lifecycle/#what-changed">review snapshots and diffs</a> compare the text at status changes, approvals and publication. <a href="https://specdoc.josie.cloud/spec-checkpoints/">Spec checkpoints</a> tag the merged specs at a fixed Git revision for a shared baseline.</p>
+        </section>
+
+        <section aria-labelledby="automation">
+          <h2 id="automation">Agents and automation</h2>
+          <dl>
+            <dt>Reviewing a draft</dt>
+            <dd>When configured, SpecDoc's <a href="https://specdoc.josie.cloud/spec-lifecycle/#review">LLM review bots</a> check drafts for unclear requirements, missing decisions and contradictions with approved top-level principles or selected related specs. They leave review comments in the editor; possible cross-spec conflicts appear as advisory findings on board cards.</dd>
+            <dt>Reconciling specs</dt>
+            <dd>A configured bot's <a href="https://specdoc.josie.cloud/spec-checkpoints/#overlap-findings">checkpoint overlap review</a> can flag duplicated responsibilities and incompatible requirements across approved specs. An agent can compare the cited requirements and draft a reconciliation. Agree which behavior should govern, then review changes to each affected spec. Record dependencies and replacements explicitly. When moving a requirement, check that the receiving spec actually covers it before retiring the old text.</dd>
+            <dt>Writing and reviewing code</dt>
+            <dd>Use coding agents to find relevant code, draft changes and tests, or review a patch against its spec. Give the agent the chosen merged spec revisions, inherited rules and dependencies. Review its diff and the actual check results before submitting; agent-written changes follow the same contribution rules.</dd>
+            <dt>Learning from implementation review</dt>
+            <dd>A configured <a href="https://specdoc.josie.cloud/spec-lifecycle/#learning-from-implementation-review">feedback bot</a> reads a linked, merged implementation PR's discussion and final changes, then proposes spec amendments in the editor. Accept or reject the suggestions through review. A code bug that violates a clear requirement calls for a code fix.</dd>
+            <dt>Routine automation</dt>
+            <dd>
+              <p>Repository hooks and CI run the checks configured for that repository.</p>
+              <p>SpecDoc opens publication PRs after approval and discussion checks pass. The <a href="#merge-spec">publication step</a> describes the remaining rollout requirement.</p>
+              <p>SpecDoc tracks implementation through merged Git references.</p>
+            </dd>
+          </dl>
+          <aside class="note note-warning" aria-label="Model review limits">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20ZM12 9v5m0 3v.01"/></svg>
+            <p>Model reviews cover limited context and can miss or misread a conflict. Check the cited text and any omissions. Contributors resolve findings; authorized reviewers approve the resulting specs in SpecDoc.</p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="working-on-code">
+          <h2 id="working-on-code">Working on code</h2>
+          <p>For core development, use Linux, Git, a Rust toolchain supporting Rust 2024, and Make. Install <code>pre-commit</code> before setting up the repository hooks. Test-specific system dependencies are documented with their suites.</p>
+          <div class="code-block">
+            <pre tabindex="0" aria-label="Repository setup commands"><code>git clone https://github.com/netfyr/netfyr.git
+cd netfyr
+cargo build
+make hooks</code></pre>
+            <button class="copy-code" type="button" aria-label="Copy repository setup commands" title="Copy repository setup commands" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
+            </button>
+          </div>
+          <p>The core hooks check formatting on commits touching Rust and run Clippy before pushes touching Rust.</p>
+          <ul>
+            <li>Use <code>cargo fmt</code> and keep Clippy clean. New crates inherit the workspace's shared metadata.</li>
+            <li>Prefer standard-library solutions. Justify external dependencies in manifest comments. For low-level networking, check the <a href="https://github.com/rust-netlink">rust-netlink ecosystem</a>, including <a href="https://github.com/rust-netlink/rtnetlink">rtnetlink</a>, and <a href="https://github.com/nispor/nispor">Nispor</a> before adding custom code, and explain any concrete API gap.</li>
+            <li>For user-facing work, consult the <a href="https://design.netfyr.io/">design library</a> and <a href="https://github.com/netfyr/specs/blob/main/netfyr-identity.md">project identity</a>. Cite the applicable design rules and reuse shared components where available.</li>
+          </ul>
+          <p>A requirement mismatch needs an explicit decision: correct the implementation or propose a spec revision. Keep unrelated cleanup in separate work.</p>
+        </section>
+
+        <section aria-labelledby="testing">
+          <h2 id="testing">Testing and evidence</h2>
+          <p>Before submitting core changes, run the checks required by its contribution guide:</p>
+          <div class="code-block">
+            <pre tabindex="0" aria-label="Pre-submission checks"><code>cargo test
+make test
+cargo fmt --check
+make clippy</code></pre>
+            <button class="copy-code" type="button" aria-label="Copy pre-submission checks" title="Copy pre-submission checks" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
+            </button>
+          </div>
+          <p>For a focused shell test run, <code>make test TAGS=ipv4,routing</code> selects either tag; <code>make test TAGS=ipv4+routing</code> requires both. A focused run does not replace the full pre-submission checks.</p>
+          <dl>
+            <dt>Pure logic</dt>
+            <dd>Place Rust unit tests beside the code in <code>#[cfg(test)]</code> modules. They should not need external tools, network namespaces, or built binaries.</dd>
+            <dt>CLI and system behavior</dt>
+            <dd>Shell tests live in <code>tests/</code>. Name them for the behavior, put tags within the first ten lines, keep helpers in <code>tests/lib/</code>, and locate built binaries through <code>NETFYR_TARGET_DIR</code>.</dd>
+            <dt>Regressions</dt>
+            <dd>Reproduce the bug with a test that fails for the reported behavior before applying the fix. Verify that it passes afterward. A compile failure does not reproduce a behavior bug.</dd>
+            <dt>Network changes</dt>
+            <dd>Verify results against the real kernel. The <a href="https://github.com/netfyr/specs/blob/main/testing/008-testing-infrastructure.md">testing infrastructure spec</a> defines pytest acceptance tiers and independent observations. Privileged candidate execution belongs in a disposable VM, with an outer snapshot and evidence retained outside the guest. Follow the suite instructions in the branch being tested.</dd>
+          </dl>
+          <p>Missing prerequisites must fail visibly. Share the exact commands, revision, environment, results, and any checks you could not run separately in chat or review evidence. A merged testing spec describes required behavior; it does not mean every harness is already available on the default branch.</p>
+        </section>
+
+        <section aria-labelledby="submitting">
+          <h2 id="submitting">Submitting a change</h2>
+          <p>Use imperative commit subjects and explain why the change is needed. Each commit should be one reviewable increment. The pull request should explain the problem, resulting behavior, and material limitations.</p>
+          <p>The <a href="https://github.com/netfyr/specs/blob/main/workspace/009-spec-references-in-commits-and-pull-requests.md">spec-reference rules</a> use a <code>Spec:</code> trailer for work implementing a spec. Put its published path, without <code>.md</code>, in each contributing commit and at the end of the PR description. Put the qualified <code>implements</code> reference in both the completing commit and the completing PR description so SpecDoc can track completion and collect implementation feedback.</p>
+          <p>A proposed maintenance exception uses <code>No-Spec: Fix README spelling without changing behavior</code> for work without a related spec. It requires a concrete reason in each maintenance commit and in a maintenance-only PR; feature PRs retain their governing <code>Spec:</code>. This exception depends on the SPEC-009 amendment being published and the matching checker landing. Until then, the published spec-reference rules apply.</p>
+          <div class="code-block">
+            <pre tabindex="0" aria-label="Specification commit references"><code>Spec: core/004-network-backend
+implements netfyr/specs#17</code></pre>
+            <button class="copy-code" type="button" aria-label="Copy specification commit references" title="Copy specification commit references" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
+            </button>
+          </div>
+          <p>This example refers to the backend spec: <code>#17</code> is its original spec pull request number, not the <code>004</code> in its filename. Include both lines in the completing commit and PR description. Earlier or partial work carries only <code>Spec:</code>; maintenance commits never claim completion. A bare <code>implements #17</code> would refer to the wrong repository.</p>
+          <ul>
+            <li>For a regression with a known introducing commit, add <code>Fixes: HASH12 ("COMMIT SUBJECT")</code>.</li>
+            <li>Update affected documentation. Add a core <code>CHANGELOG.md</code> entry under <code>[Unreleased]</code>, with the spec path in parentheses, when users or packagers would notice the change.</li>
+            <li>Retain the references in the final merge or squash message. Check that the linked spec and completing reference describe the same work.</li>
+          </ul>
+          <p>Spec-reference rules apply even when hooks and CI do not enforce them.</p>
+        </section>
+
+        <section aria-labelledby="tools">
+          <h2 id="tools">Tools and infrastructure</h2>
+          <p>Hosted services and test machines have separate access arrangements.</p>
+          <table>
+            <caption>Where to work and what access is needed</caption>
+            <thead><tr><th scope="col">Resource</th><th scope="col">Purpose and access</th></tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row"><a href="https://github.com/netfyr">GitHub</a></th>
+                <td>Source, merged specs, issues, and pull requests. Public repositories can be read and cloned; use your GitHub account to contribute. Repository permissions govern review and merge access.</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://specs.netfyr.io/?ns=netfyr%2Fspecs">SpecDoc</a></th>
+                <td>The spec board, editor, planning view, and dependency library. Public specs are readable without signing in. Sign in with GitHub to participate; approval rights come from the project's configured roles.</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/pfeifferj/nm-devtools">nm-devtools</a></th>
+                <td>Shared scripts and workflows for development, bug reproduction, review, VM tests, and network transition experiments. These are optional tools; follow the target checkout's actual commands and contribution rules.</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://specdoc.josie.cloud/cli/">SpecDoc CLI</a></th>
+                <td>Use the <code>specdoc</code> command to read specs, edit notes with conflict checks and submit bot reviews. The CLI guide covers installation, authentication and structured output.</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://specdoc.josie.cloud/context-graph/#setup">SpecDoc MCP</a></th>
+                <td>Optional context tools for agents: <code>context</code>, <code>brief</code>, <code>search</code>, <code>get</code>, <code>neighbors</code> and <code>trace</code>. Check freshness and truncation notices. History links help find requirements; they do not prove compliance. The <a href="https://specdoc.josie.cloud/api/">read API</a> supports other integrations.</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/pfeifferj/nm-devtools/blob/main/skills/testvm/SKILL.md">testvm and vm-test</a></th>
+                <td>Tools for configured libvirt test environments, snapshots, rollback, and evidence collection. Cloning the tools does not provision a VM or grant host access. Arrange shared-host access with its maintainer, or configure your own disposable environment.</td>
+              </tr>
+              <tr>
+                <th scope="row">Site hosting</th>
+                <td>The website, user docs, and design library publish through GitHub Actions and Pages. Maintainers manage <a href="https://github.com/netfyr/infra">DNS and hosted services</a>. Contributors can propose content changes through the site repositories without infrastructure credentials.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>On a shared test host, claim a VM before a long run and release it afterward. Respect another session's lease. Preserve a recoverable snapshot and collect evidence before rollback; <code>vm-test</code> supports that workflow.</p>
+          <p>If you need access or cannot run a required check, explain the task and the missing capability in the relevant issue or pull request so a maintainer can help arrange it. Include what you have already verified.</p>
+        </section>
+
+        <section aria-labelledby="documentation">
+          <h2 id="documentation">Documentation and publishing</h2>
+          <p>Keep documentation with its audience and source:</p>
+          <ul>
+            <li><a href="https://github.com/netfyr/specs">netfyr/specs</a> holds the reviewed requirements.</li>
+            <li><a href="https://github.com/netfyr/docs">netfyr/docs</a> publishes user guides and configuration reference at <a href="https://docs.netfyr.io/">docs.netfyr.io</a>. Its README describes preview and validation commands.</li>
+            <li><a href="https://github.com/netfyr/design">netfyr/design</a> owns the <a href="https://design.netfyr.io/">design library</a>, shared assets, and component guidance.</li>
+            <li><a href="https://github.com/netfyr/netfyr.io">netfyr/netfyr.io</a> holds this contributor guide and the project landing page.</li>
+          </ul>
+          <p>The docs repository pins the core revision used by its reference and example checks. Its scheduled update workflow proposes changes in a pull request after validation. Review the core changes, update affected guides, and merge the reviewed update to publish it.</p>
+          <p>Implementation completion, documentation publication, and a software release are separate events. A board card marked implemented means the completing commit landed. Core changes remain in <code>[Unreleased]</code> until released; this guide does not define a release cadence.</p>
+          <p>For SpecDoc service upgrades, follow its <a href="https://specdoc.josie.cloud/release/">release and rebase guide</a>, which covers editor and board images and updates to the HedgeDoc fork.</p>
+        </section>
+
+        <section aria-labelledby="maintaining">
+          <h2 id="maintaining">Keeping this guide current</h2>
+          <p>Check repository instructions and merged specs when a command, role, or requirement changes. Confirm a tool is present in your checkout before using it.</p>
+          <p>Propose corrections through <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">this page's source</a>, with a link to the changed rule or implemented workflow. Keep new plans clearly identified until the corresponding tooling or service is available.</p>
+        </section>
+      </div>
+
+        <footer class="page-footer">
+          <a class="footer-brand" href="../"><img src="../assets/netfyr-mark-orange.svg" alt="" width="18" height="18">netfyr development</a>
+          <a href="#content">Back to top <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+        </footer>
+      </main>
+    </div>
+    <div class="toast" id="copy-status" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  </body>
+</html>
