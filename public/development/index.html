@@ -92,7 +92,7 @@
       <main class="page-layout" id="content" tabindex="-1">
       <header class="article-header">
         <h1>Development lifecycle</h1>
-        <p class="page-meta">Last reviewed <time datetime="2026-11-08">8 November 2026</time> · <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">Edit this page</a></p>
+        <p class="page-meta">Last reviewed <time datetime="2026-11-09">9 November 2026</time> · <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">Edit this page</a></p>
       </header>
       <div class="article-body">
         <section aria-labelledby="start">
@@ -164,7 +164,8 @@
             <li>
               <h3 id="close-loop">Record completion</h3>
               <p>When the completing commit reaches a configured implementation repository's default branch, SpecDoc detects its <code>implements</code> reference and marks the feature implemented. Partial work does not claim completion. Top-level principles remain approved; they are not closed as implemented.</p>
-              <p>If implementation reveals a requirement that needs changing, revise the spec through review. Corrections retain its identity and path; a replacement spec records what it supersedes. Update affected user documentation.</p>
+              <p>If implementation reveals a requirement that needs changing, revise the spec through review. Corrections retain its identity and path; a replacement spec records what it supersedes.</p>
+              <p>Update affected user documentation and review any <a href="#documentation-followup">documentation follow-up</a> linked from the implementation PR.</p>
             </li>
           </ol>
           <p>Open <a href="https://specdoc.josie.cloud/spec-lifecycle/#what-changed">History</a> in the editor to read saved revisions and compare each with the previous one. For <a href="https://specdoc.josie.cloud/spec-lifecycle/#what-changed">changes since your approval</a>, open the board's changes view. Discussion includes approval activity alongside the threads. <a href="https://specdoc.josie.cloud/spec-checkpoints/">Spec checkpoints</a> tag the merged specs at a fixed Git revision for a shared baseline.</p>
@@ -181,6 +182,8 @@
             <dd>The <a href="https://specdoc.josie.cloud/cli/">SpecDoc CLI</a> and <a href="https://specdoc.josie.cloud/context-graph/#setup">MCP adapter</a> provide spec lookup and pinned task context for coding agents. A task can select its governing requirements, inherited rules and dependencies at fixed Git revisions. Agent-assisted changes follow the same review and contribution rules.</dd>
             <dt>Learning from implementation review</dt>
             <dd>A configured <a href="https://specdoc.josie.cloud/spec-lifecycle/#learning-from-implementation-review">feedback bot</a> reads a linked, merged implementation PR's discussion and final changes, then proposes spec amendments in the editor. Accept or reject the suggestions through review. A code bug that violates a clear requirement calls for a code fix.</dd>
+            <dt id="documentation-followup">Updating user documentation</dt>
+            <dd>SpecDoc's <a href="https://specdoc.josie.cloud/configuration/#documentation-follow-ups">documentation bot</a> checks PRs merged into the default branches of <a href="https://github.com/netfyr/netfyr">core</a>, <a href="https://github.com/netfyr/tui">TUI</a> and <a href="https://github.com/netfyr/cockpit">Cockpit</a>, with or without a spec reference. When selected user guides need an update, it opens a PR in the configured documentation repository, currently <a href="https://github.com/netfyr/docs">netfyr/docs</a>, and comments a link on the source PR for its author to review. The bot does not merge documentation PRs.</dd>
             <dt>Routine automation</dt>
             <dd>
               <p>Repository hooks and CI run the checks configured for that repository.</p>
@@ -315,7 +318,7 @@ implements netfyr/specs#17</code></pre>
             <li><a href="https://github.com/netfyr/design">netfyr/design</a> owns the <a href="https://design.netfyr.io/">design library</a>, shared assets, and component guidance.</li>
             <li><a href="https://github.com/netfyr/netfyr.io">netfyr/netfyr.io</a> holds this contributor guide and the project landing page.</li>
           </ul>
-          <p>The docs repository pins the core revision used by its reference and example checks. Its scheduled update workflow proposes changes in a pull request after validation. Review the core changes, update affected guides, and merge the reviewed update to publish it.</p>
+          <p>Generated schemas and field references stay under the docs repository's deterministic sync. The repository pins the core revision used by its reference and example checks, and its scheduled workflow proposes updates in a PR. The <a href="#documentation-followup">documentation bot</a> handles selected prose pages separately. Maintainers merge reviewed documentation PRs to publish the changes.</p>
           <p>Implementation completion, documentation publication, and a software release are separate events. A board card marked implemented means the completing commit landed. Core changes remain in <code>[Unreleased]</code> until released; this guide does not define a release cadence.</p>
           <p>For SpecDoc service upgrades, follow its <a href="https://specdoc.josie.cloud/release/">release and rebase guide</a>, which covers editor and board images and updates to the HedgeDoc fork.</p>
         </section>
