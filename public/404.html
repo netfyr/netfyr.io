@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-ui-theme>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#211c19" media="(prefers-color-scheme: dark)">
+    <script>
+      try {
+        const mode = localStorage.getItem('netfyr-theme');
+        if (mode === 'light' || mode === 'dark') {
+          document.documentElement.dataset.uiMode = mode;
+          document.querySelectorAll('meta[name="theme-color"]').forEach(meta => {
+            meta.content = mode === 'dark' ? '#211c19' : '#faf8f4';
+          });
+        }
+      } catch {}
+    </script>
+    <title>404 · Page not found · netfyr</title>
+    <link rel="icon" href="/assets/netfyr-mark-orange.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/ui/theme.css">
+    <script type="module" src="/brand.js"></script>
+    <script type="module" src="/theme.js"></script>
+  </head>
+  <body class="landing">
+    <button class="ui-theme-toggle" type="button" data-ui-theme-toggle aria-label="Switch theme" hidden>
+      <svg data-ui-theme-icon="light" viewBox="0 0 24 24" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      <svg data-ui-theme-icon="dark" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M20 14a8.5 8.5 0 0 1-10-10A8.5 8.5 0 1 0 20 14Z"/></svg>
+    </button>
+    <main>
+      <a class="brand brand-mark" href="/" aria-label="netfyr home">
+        <svg class="flame-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 2 128 128" width="96" height="96" aria-hidden="true">
+          <g class="flame-body"><path fill="#FF7A1A" d="M90 12a6 6 0 0 0-10.24264-4.24264L15.75736 71.75736A6 6 0 0 0 14 76a50 50 0 0 0 100 0V52a6 6 0 0 0-10.24264-4.24264L90 61.51472ZM78 26.48528V76a6 6 0 0 0 10.24264 4.24264L102 66.48528V76A38 38 0 0 1 26.07643 78.40885Z"/></g>
+        </svg>
+      </a>
+      <h1 class="error-title">404 · Page not found</h1>
+    </main>
+  </body>
+</html>
