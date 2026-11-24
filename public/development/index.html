@@ -92,17 +92,17 @@
       <main class="page-layout" id="content" tabindex="-1">
       <header class="article-header">
         <h1>Development lifecycle</h1>
-        <p class="page-meta">Last reviewed <time datetime="2026-11-09">9 November 2026</time> · <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">Edit this page</a></p>
+        <p class="page-meta">Last reviewed <time datetime="2026-11-24">24 November 2026</time> · <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">Edit this page</a></p>
       </header>
       <div class="article-body">
         <section aria-labelledby="start">
           <h2 id="start">Start here</h2>
           <p>Features start with a specification: a document that describes the expected behavior and how to tell whether it works.</p>
-          <p><a href="https://specs.netfyr.io/?ns=netfyr%2Fspecs">SpecDoc</a> is where we draft, discuss and approve specs. Approved specs are published to <a href="https://github.com/netfyr/specs">netfyr/specs</a>. Code changes go to the repository that implements them, such as <a href="https://github.com/netfyr/netfyr">netfyr/netfyr</a> for the core.</p>
+          <p>Draft and review specs in the SpecDoc project that owns the behavior. Choose the <a href="https://specs.netfyr.io/?ns=netfyr%2Fspecs">core board</a> for the network engine, the <a href="https://specs.netfyr.io/?ns=netfyr%2Ftui">TUI board</a> for the terminal interface, or the <a href="https://specs.netfyr.io/?ns=netfyr%2Fcockpit">Cockpit board</a> for the web interface.</p>
           <ul>
-            <li><strong>Implement an existing feature:</strong> use the <a href="https://specs.netfyr.io/roadmap?ns=netfyr%2Fspecs">planning page</a> to find work. Read its published spec, check that its dependencies are implemented, and coordinate with the assigned implementer or, if nobody is assigned, the spec owner.</li>
-            <li><strong>Propose or change behavior:</strong> read <a href="#spec-format">Spec format</a>, then create or revise a proposal in SpecDoc. The <a href="#lifecycle">lifecycle below</a> explains how it reaches implementation.</li>
-            <li><strong>Fix a bug or improve documentation:</strong> start with the relevant repository's issue or PR discussion. For a bug, describe the expected behavior and provide a reproducer. You can also contribute by reviewing a spec in SpecDoc.</li>
+            <li><strong>Implement an existing feature.</strong> Open the planning page for your project to find work. Read the published spec, check which dependencies have landed in code, and coordinate with the assigned implementers or the spec owner. See the <a href="https://specs.netfyr.io/roadmap?ns=netfyr%2Fspecs">core implementation plan</a>.</li>
+            <li><strong>Propose or change behavior.</strong> Read <a href="#spec-format">Spec format</a>, then create or revise a proposal in SpecDoc. The <a href="#lifecycle">lifecycle below</a> explains how it reaches implementation.</li>
+            <li><strong>Fix a bug or improve documentation.</strong> Start with the relevant repository's issue or PR discussion. For a bug, describe the expected behavior and provide a reproducer. You can also contribute by reviewing a spec in SpecDoc.</li>
           </ul>
           <p>Before writing a spec or code, read the <a href="https://github.com/netfyr/specs/blob/main/netfyr-philosophy.md">project philosophy</a> and the target repository's contribution guide. For core, use <a href="https://github.com/netfyr/netfyr/blob/main/CONTRIBUTING.md">Contributing to netfyr</a>, then follow <a href="#working-on-code">Working on code</a> for local setup.</p>
         </section>
@@ -131,7 +131,7 @@
             <ol class="lifecycle-flow" aria-labelledby="lifecycle-diagram-caption" role="list">
               <li><span class="flow-number" aria-hidden="true">1</span><a href="#propose-behavior">Draft spec</a><span class="flow-arrow" aria-hidden="true">→</span></li>
               <li><span class="flow-number" aria-hidden="true">2</span><a href="#review-spec">Review and approve</a><span class="flow-arrow" aria-hidden="true">→</span></li>
-              <li><span class="flow-number" aria-hidden="true">3</span><a href="#merge-spec">Bot publication</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+              <li><span class="flow-number" aria-hidden="true">3</span><a href="#merge-spec">Publish spec</a><span class="flow-arrow" aria-hidden="true">→</span></li>
               <li><span class="flow-number" aria-hidden="true">4</span><a href="#implement-verify">Implement and test</a><span class="flow-arrow" aria-hidden="true">→</span></li>
               <li><span class="flow-number" aria-hidden="true">5</span><a href="#review-code">Review and merge code</a><span class="flow-arrow" aria-hidden="true">→</span></li>
               <li><span class="flow-number" aria-hidden="true">6</span><a href="#close-loop">Implemented</a></li>
@@ -141,14 +141,14 @@
           <ol class="stages">
             <li>
               <h3 id="propose-behavior">Propose the behavior</h3>
-              <p>Ask a maintainer in the relevant GitHub issue or PR to add your account to the <a href="https://github.com/netfyr/infra/blob/main/terraform/github-org/governance.auto.tfvars.json">contributor inventory</a>. This is required before SpecDoc can publish your specs or run review automation on them.</p>
+              <p>Sign in with GitHub. For SpecDoc to run review bots on a proposal or publish it, the account that owns the note in the editor must be a listed author or approver for that project. Ask a maintainer for access in the project's issue tracker and include your GitHub login. For core, use the <a href="https://github.com/netfyr/specs/issues">specs issue tracker</a>.</p>
               <p>Create a spec using the appropriate <a href="#spec-format">template</a>, or revise the existing spec if its scope already covers the change. Approved specs are locked; ask the owner shown in the spec header to reopen one for revision.</p>
             </li>
             <li>
               <h3 id="review-spec">Review and approve the spec</h3>
-              <p>Move the draft to ready for review. Use inline comments for specific passages and the editor's Discussion panel for questions about the whole spec. Resolve inline threads and accept or reject suggestions before approving. Authorized approvers approve through the editor controls; later changes to the spec or its review policy need fresh approvals.</p>
-              <p>General discussion threads block publication until they are resolved.</p>
-              <p id="merge-spec">Once approval and discussion checks pass, SpecDoc opens a publication PR in <a href="https://github.com/netfyr/specs">netfyr/specs</a>. SpecDoc merges it after the required repository checks pass. Spec content is reviewed in SpecDoc; contributors do not edit the published files or repeat the review in GitHub.</p>
+              <p>Move the draft to ready for review. Use inline comments for specific passages and the editor's Discussion panel for questions about the whole spec. Approvers can record approval while discussion is open. Edits to the reviewed text, including resolving inline markup, or changes to the project's review policy require fresh approvals. Resolving a general discussion preserves approvals.</p>
+              <p id="merge-spec">Once the current revision has enough approvals, all threads are resolved and suggestions are settled, SpecDoc opens a publication PR. For core, SpecDoc automatically merges the PR in <a href="https://github.com/netfyr/specs/blob/main/CONTRIBUTING.md">netfyr/specs</a> after the required <code>validate</code> check passes. Core implementation PRs go to <a href="https://github.com/netfyr/netfyr">netfyr/netfyr</a>.</p>
+              <p>The <a href="https://github.com/netfyr/tui">TUI</a> and <a href="https://github.com/netfyr/cockpit">Cockpit</a> projects publish specs under <code>specs/</code> in their own repositories. Their publication PRs follow each repository's GitHub review and merge process. Send implementation PRs to that same repository.</p>
             </li>
             <li>
               <h3 id="implement-verify">Implement and verify</h3>
@@ -175,7 +175,7 @@
           <h2 id="automation">Agents and automation</h2>
           <dl>
             <dt>Reviewing a draft</dt>
-            <dd>When configured, SpecDoc's <a href="https://specdoc.josie.cloud/spec-lifecycle/#review">LLM review bots</a> check drafts for unclear requirements, missing decisions and contradictions with approved top-level principles or selected related specs. They leave comments in the editor. Advisory cross-spec findings use one shared thread in both specs' Discussion panels, with the same replies and resolution.</dd>
+            <dd>When configured, SpecDoc's <a href="https://specdoc.josie.cloud/spec-lifecycle/#review">LLM review bots</a> check drafts for unclear requirements, missing decisions and contradictions with approved top-level principles or selected related specs. They leave comments in the editor. A finding involving two specs opens one shared discussion. It blocks publication of both until the thread is resolved.</dd>
             <dt>Reconciling specs</dt>
             <dd>A configured bot's <a href="https://specdoc.josie.cloud/spec-checkpoints/#consistency-review">checkpoint consistency review</a> can flag duplicated responsibilities and incompatible requirements across approved specs. Findings use the same shared threads as draft reviews. An agent can compare the cited requirements and draft a reconciliation. Agree which behavior should govern, then review changes to each affected spec. Resolving the shared thread requires permission on both specs. Record dependencies and replacements explicitly. When moving a requirement, check that the receiving spec actually covers it before retiring the old text.</dd>
             <dt>Context for coding agents</dt>
@@ -187,8 +187,7 @@
             <dt>Routine automation</dt>
             <dd>
               <p>Repository hooks and CI run the checks configured for that repository.</p>
-              <p>SpecDoc <a href="#merge-spec">opens and merges publication PRs in netfyr/specs</a> after approval, discussion and repository checks pass.</p>
-              <p>SpecDoc tracks implementation through merged Git references.</p>
+              <p>Each project has its own <a href="#merge-spec">publication policy</a>. SpecDoc tracks implemented features through references in merged commits.</p>
             </dd>
           </dl>
           <aside class="note note-warning" aria-label="Model review limits">
@@ -209,7 +208,7 @@ make hooks</code></pre>
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
             </button>
           </div>
-          <p>The core hooks check formatting on commits touching Rust and run Clippy before pushes touching Rust.</p>
+          <p>The <a href="https://github.com/netfyr/netfyr/blob/main/.pre-commit-config.yaml">core hooks</a> check formatting on commits touching Rust and run Clippy before pushes touching Rust.</p>
           <ul>
             <li>Use <code>cargo fmt</code> and keep Clippy clean. New crates inherit the workspace's shared metadata.</li>
             <li>Prefer standard-library solutions. Justify external dependencies in manifest comments. For low-level networking, check the <a href="https://github.com/rust-netlink">rust-netlink ecosystem</a>, including <a href="https://github.com/rust-netlink/rtnetlink">rtnetlink</a>, and <a href="https://github.com/nispor/nispor">Nispor</a> before adding custom code, and explain any concrete API gap.</li>
@@ -220,7 +219,7 @@ make hooks</code></pre>
 
         <section aria-labelledby="testing">
           <h2 id="testing">Testing and evidence</h2>
-          <p>Before submitting core changes, run the checks required by its contribution guide:</p>
+          <p>Run these checks from the core checkout before opening a PR. The <a href="https://github.com/netfyr/netfyr/blob/main/CONTRIBUTING.md">core contribution guide</a> describes what each one covers.</p>
           <div class="code-block">
             <pre tabindex="0" aria-label="Pre-submission checks"><code>cargo test
 make test
@@ -230,26 +229,26 @@ make clippy</code></pre>
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
             </button>
           </div>
-          <p>For focused shell checks, <code>make test TAGS=build,meta</code> selects either tag; <code>make test TAGS=meta+policy</code> requires both. A focused run does not replace the full pre-submission checks.</p>
+          <p>For a focused shell run, <code>make test TAGS=build,meta</code> selects either tag and <code>make test TAGS=meta+policy</code> requires both. Check which tests the filter selected.</p>
           <dl>
-            <dt>Pure logic</dt>
-            <dd>Place Rust unit tests beside the code in <code>#[cfg(test)]</code> modules. They should not need external tools, network namespaces, or built binaries.</dd>
-            <dt>CLI and system behavior</dt>
-            <dd>Shell tests live in <code>tests/</code>. Name them for the behavior, put tags within the first ten lines, keep helpers in <code>tests/lib/</code>, and locate built binaries through <code>NETFYR_TARGET_DIR</code>.</dd>
+            <dt>Library behavior</dt>
+            <dd>Place Rust unit tests beside the code in <code>#[cfg(test)]</code> modules. Exercise a library's public API from its <code>tests/</code> directory. Both run under <code>cargo test</code>.</dd>
+            <dt>Host shell checks</dt>
+            <dd><code>make test</code> builds the workspace and runs <code>tests/*.sh</code>. Name each script for its behavior, put tags within the first ten lines, keep helpers in <code>tests/lib/</code>, and locate built binaries through <code>NETFYR_TARGET_DIR</code>.</dd>
             <dt>Regressions</dt>
             <dd>Reproduce the bug with a test that fails for the reported behavior before applying the fix. Verify that it passes afterward. A compile failure does not reproduce a behavior bug.</dd>
             <dt>Network changes</dt>
-            <dd>Verify results against the real kernel. The <a href="https://github.com/netfyr/specs/blob/main/testing/008-testing-infrastructure.md">testing infrastructure spec</a> defines pytest acceptance tiers and independent observations. Privileged candidate execution belongs in a disposable VM, with an outer snapshot and evidence retained outside the guest. Follow the suite instructions in the branch being tested.</dd>
+            <dd>The core backend has a separate pytest suite. Build the probe and run the suite in a disposable VM with an outer snapshot. It checks the resulting kernel state independently with <code>ip</code>. Keep evidence outside the guest. Follow the <a href="https://github.com/netfyr/netfyr/blob/main/tests/integration/coverage.md">backend acceptance guide</a> for the revision under test and the <a href="https://github.com/netfyr/specs/blob/main/testing/008-testing-infrastructure.md">testing infrastructure spec</a> for the requirements.</dd>
           </dl>
-          <p>Missing prerequisites must fail visibly. Share the exact commands, revision, environment, results, and any checks you could not run separately in chat or review evidence. A merged testing spec describes required behavior; it does not mean every harness is already available on the default branch.</p>
+          <p>Missing prerequisites must fail visibly. Share the commands, revision, environment, results and any checks you could not run in chat or separate review evidence.</p>
         </section>
 
         <section aria-labelledby="submitting">
           <h2 id="submitting">Submitting a change</h2>
           <p>Use imperative commit subjects and explain why the change is needed. Each commit should be one reviewable increment. The pull request should explain the problem, resulting behavior, and material limitations.</p>
-          <p>The published <a href="https://github.com/netfyr/specs/blob/main/workspace/009-spec-references-in-commits-and-pull-requests.md">spec-reference rules</a> require a <code>Spec:</code> trailer in the final paragraph of each commit and PR description, all naming the same governing spec. Use the spec's published path without <code>.md</code>.</p>
+          <p>For core, put exactly one <code>Spec:</code> trailer in the final paragraph of each non-exempt commit. End the PR description with a trailer block naming the same governing spec, even if every commit is exempt. Use the published path without <code>.md</code>. See the <a href="https://github.com/netfyr/specs/blob/main/workspace/009-spec-references-in-commits-and-pull-requests.md">spec-reference rules</a>.</p>
           <p>Merge, revert, <code>fixup!</code>, <code>squash!</code> and <code>amend!</code> commits are exempt. Bug fixes, documentation, CI and tooling changes still cite the spec governing the affected behavior; repository-wide work cites the applicable <code>meta/</code> spec.</p>
-          <p>Put the qualified <code>implements</code> reference in both the completing commit and the completing PR description so SpecDoc can track completion and collect implementation feedback.</p>
+          <p>When a feature is complete, put the qualified <code>implements</code> line in the last non-exempt commit. SpecDoc reads that commit on the default branch to mark the feature implemented. Put the line in the completing PR description as well so the feedback bot can find the review.</p>
           <div class="code-block">
             <pre tabindex="0" aria-label="Specification commit references"><code>Spec: core/004-network-backend
 implements netfyr/specs#17</code></pre>
@@ -257,7 +256,7 @@ implements netfyr/specs#17</code></pre>
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V4H4v11h4"/></svg>
             </button>
           </div>
-          <p>This example refers to the backend spec: <code>#17</code> is its original spec pull request number, not the <code>004</code> in its filename. Include both lines in the completing commit and PR description. Earlier or partial work carries only <code>Spec:</code>. A bare <code>implements #17</code> would refer to the wrong repository.</p>
+          <p>The backend spec was published in <a href="https://github.com/netfyr/specs/pull/17">netfyr/specs#17</a>. Use that original PR number for completion. Earlier commits and partial PRs use the governing <code>Spec:</code> reference without a completion line. A later PR about an already implemented feature can link its description to the same spec for feedback.</p>
           <ul>
             <li>For a regression with a known introducing commit, add <code>Fixes: HASH12 ("COMMIT SUBJECT")</code>.</li>
             <li>Update affected documentation. Add a core <code>CHANGELOG.md</code> entry under <code>[Unreleased]</code>, with the spec path in parentheses, when users or packagers would notice the change.</li>
@@ -299,12 +298,12 @@ implements netfyr/specs#17</code></pre>
               </tr>
               <tr>
                 <th scope="row">Site hosting</th>
-                <td>The website, user docs, and design library publish through GitHub Actions and Pages. Maintainers manage <a href="https://github.com/netfyr/infra">DNS and hosted services</a>. Contributors can propose content changes through the site repositories without infrastructure credentials.</td>
+                <td>The website, user docs and design library publish through GitHub Actions and Pages. Propose content changes in the <a href="#documentation">repository that owns the page</a>. Maintainers handle DNS and hosting.</td>
               </tr>
             </tbody>
           </table>
           <p>On a shared test host, claim a VM before a long run and release it afterward. Respect another session's lease. Preserve a recoverable snapshot and collect evidence before rollback; <code>vm-test</code> supports that workflow.</p>
-          <p>Maintainers follow the <a href="https://github.com/netfyr/infra/blob/main/docs/contributors.md">onboarding instructions</a> to change contributor access, reviewer eligibility and quorum. The contributor inventory generates repository policies and SpecDoc settings; policy and deployment changes go through reviewed GitHub PRs.</p>
+          <p>Maintainers manage author access, reviewers and approval quorum centrally. You can see the resulting policy for <a href="https://github.com/netfyr/specs/blob/main/roles.yml">core</a>, <a href="https://github.com/netfyr/tui/blob/main/.specs/roles.yml">TUI</a> and <a href="https://github.com/netfyr/cockpit/blob/main/.specs/roles.yml">Cockpit</a>.</p>
           <p>If you need access or cannot run a required check, explain the task and the missing capability in the relevant issue or pull request so a maintainer can help arrange it. Include what you have already verified.</p>
         </section>
 
@@ -312,7 +311,7 @@ implements netfyr/specs#17</code></pre>
           <h2 id="documentation">Documentation and publishing</h2>
           <p>Keep documentation with its audience and source:</p>
           <ul>
-            <li><a href="https://github.com/netfyr/specs">netfyr/specs</a> holds the reviewed requirements.</li>
+            <li><a href="https://github.com/netfyr/specs">netfyr/specs</a> holds merged core requirements. TUI and Cockpit publish requirements in their own repositories.</li>
             <li><a href="https://github.com/netfyr/docs">netfyr/docs</a> publishes user guides and configuration reference at <a href="https://docs.netfyr.io/">docs.netfyr.io</a>. Its README describes preview and validation commands.</li>
             <li>Run <code>make docs</code> in the core checkout to build the Rust API reference. Open <code>target/doc/netfyr_state/index.html</code> and use the Crates sidebar to switch libraries.</li>
             <li><a href="https://github.com/netfyr/design">netfyr/design</a> owns the <a href="https://design.netfyr.io/">design library</a>, shared assets, and component guidance.</li>
@@ -325,7 +324,7 @@ implements netfyr/specs#17</code></pre>
 
         <section aria-labelledby="maintaining">
           <h2 id="maintaining">Keeping this guide current</h2>
-          <p>Check repository instructions and merged specs when a command, role, or requirement changes. Confirm a tool is present in your checkout before using it.</p>
+          <p>When a contribution rule changes, update the file that owns it and the corresponding section here. Check core commands against <a href="https://github.com/netfyr/netfyr/blob/main/CONTRIBUTING.md">Contributing to netfyr</a> and spec publication against the <a href="https://github.com/netfyr/specs/blob/main/CONTRIBUTING.md">specs contribution guide</a> and the project's published policy.</p>
           <p>Propose corrections through <a href="https://github.com/netfyr/netfyr.io/edit/main/public/development/index.html">this page's source</a>, with a link to the changed rule or implemented workflow.</p>
         </section>
       </div>
