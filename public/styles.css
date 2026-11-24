@@ -55,6 +55,7 @@
 
 body {
   margin: 0;
+  background-color: var(--background);
 }
 
 [hidden] {
@@ -81,17 +82,30 @@ body {
   text-align: center;
 }
 
-.landing h1 {
+.landing .brand {
+  display: block;
   width: min(100%, 22rem);
   margin: 0 auto;
 }
 
-.landing h1 img,
-.landing h1 .flame-svg {
+.landing .brand-mark {
+  max-width: 6rem;
+}
+
+.landing .brand img,
+.landing .brand .flame-svg {
   display: block;
   width: 100%;
   height: auto;
   margin-inline: auto;
+}
+
+.error-title {
+  margin: 2rem 0 0;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+  text-wrap: balance;
 }
 
 .flame-svg {
@@ -146,7 +160,7 @@ a {
   text-underline-offset: 0.25em;
 }
 
-.landing a {
+.landing nav a {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
